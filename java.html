@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+   <body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a href="#home" class="w3-bar-item w3-button"><b>BR</b> Architects</a>
+    <!-- Float links to the right. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="index.html" class="w3-bar-item w3-button">index</a>
+      <a href="java.html" class="w3-bar-item w3-button">java</a>
+      <a href="api.html" class="w3-bar-item w3-button">api</a>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="w3-content w3-padding-64 w3-margin-top" style="max-width:1564px">
+
+<h1>The document Object</h1>
+<h2>The getElementById() Method</h2>
+<p id="demo2">ค่าที่เก็บไว้ในตอนนี้: ใส่ค่าเพื่อบวก</p>
+<button type="button" onclick="accumulator.read()">คลิ๊กเพื่อบวกเลข</button> <hr>
+<p id="demo3">ผลลัพธ์ : </p>
+<button type="button" onclick="calculator.read()">คลิ๊ก</button>
+</div>
+  
+
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+<script>
+ function Accumulator(startingValue) {
+  this.currentValue = startingValue;
+
+  this.read = function() {
+    let userInput = Number(prompt('ป้อนค่าที่ต้องการบวก', ''));
+    if (!isNaN(userInput)) {
+      this.currentValue += userInput;
+    } else {
+      alert('กรุณาป้อนตัวเลข');
+    }
+    this.show();
+  };
+
+  this.show = function() {
+    document.getElementById('demo2').textContent = `ค่าที่เก็บไว้ในตอนนี้: ${this.currentValue}`;
+  };
+}
+
+// สร้าง object Accumulator และเก็บไว้ในตัวแปร accumulator
+const accumulator = new Accumulator(10);
+
+// ไม่ต้องเรียกใช้ function ที่ไม่ได้ถูกสร้างขึ้น
+function Calculator() {
+  this.read = function() {
+    this.number1 = Number(prompt('ป้อนตัวเลขที่ 1', ''));
+    this.number2 = Number(prompt('ป้อนตัวเลขที่ 2', ''));
+  };
+
+  this.sum = function() {
+    return this.number1 + this.number2;
+  };
+
+  this.mul = function() {
+    return this.number1 * this.number2;
+  };
+
+  this.division = function() {
+    if (this.number2 !== 0) {
+      return this.number1 / this.number2;
+    } else {
+      return 'ไม่สามารถหารด้วย 0 ได้';
+    }
+  };
+}
+
+const calculator = new Calculator();
+calculator.read();
+alert(`ผลบวก: ${calculator.sum()}`);
+alert(`ผลคูณ: ${calculator.mul()}`);
+
+document.getElementById('demo3').addEventListener('click', function() {
+  alert(`ผลหาร: ${calculator.division()}`);
+});
+
+</script>
+
+</body>
+</html>
