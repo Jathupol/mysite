@@ -5,13 +5,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+
+
+  
+
+<!-- ส่วนของ Google Maps API -->
+<!-- <script
+  src="https://maps.googleapis.com/maps/api/js?key=mapview-370108&callback=initMap"
+  async
+  defer
+  
+></script>
+<div id="map" style="height: 400px;"></div><hr> -->
+<h1>ค้นหารหัสไปรษณีย์</h1>
+<input type="text" id="zipcode" placeholder="ใส่ Zip Code" class="input1">
+<button onclick="fetchZipInfo()" class="button-59">ค้นหา</button>
+
+<h2>ผลลัพธ์:</h2>
+<div id="result"></div>
+
+<hr>
+  <form 
+    method="POST" 
+    action="https://script.google.com/macros/s/AKfycbxeufKhkIiVAW45KJUFbBs6NmSWhXD1RZ3OVR4xbB0CCwitZz5Gk2uBcyarLWUquxCGsw/exec"
+  >
+    <input name="Email" type="email" placeholder="Email" required class="input1">
+    <input name="Name" type="text" placeholder="Name" required class="input1">
+    <input name="Topic" type="text" placeholder="Topic" required class="input1">
+    <button type="submit" class="button-59">Send</button> <br> <br>
+    <div>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRky_COKu5pXuG9MjJs8MwlGx-_mIp7IVJpuBKXPF9EWDIf_Yjr1Qf-x8t7fm07REgpkbIk4mRFbZDc/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+    </div>
+  </form><hr>
+
+  <h1>Random Dog Image</h1>
+  <img id="dogImage" src="" alt="Random Dog Image"> <br> <br>
+  <button onclick="getNewDogImage()" class="button-59">Get New Image</button>
+  <hr>
+  
+<!-- <p id="demo3">ผลลัพธ์ : </p>
+<button type="button" onclick="calculator.read()">คลิ๊ก</button>
+</div>
+   -->
+
+
+
+<!-- Footer -->
+<!-- <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+<canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+
+ -->
+
+
+ <body style="text-align: center; background-color: black; color: white;">
 
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
-  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-    <a href="#home" class="w3-bar-item w3-button"><b>BR</b> Architects</a>
+  <div class="w3-bar w3-gray w3-wide w3-padding w3-card">
+    <a href="index.html" class="w3-bar-item" style="text-decoration: none;"><b>JP</b>Assignment</a>
     <!-- Float links to the right. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
       <a href="index.html" class="w3-bar-item w3-button">index</a>
@@ -20,13 +73,105 @@
     </div>
   </div>
 </div>
+<body>
+  
 
 <!-- Page content -->
-<div class="w3-content w3-padding" style="max-width:1564px">
+<div class="w3-content w3-padding" style="max-width:1564px;">
+<script>
+  // fetch('contry-by-name.json')
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     // ดึงข้อมูลที่ต้องการใช้จาก JSON
+  //     const countries = data.map(item => item.country);
+  //     const wineProduction = data.map(item => item.Chart); // แทน production ด้วย property ที่ต้องการนำมาใช้
 
-    
+      // สร้าง Pie Chart โดยใช้ข้อมูลที่ดึงมาจาก JSON
+      // new Chart("myChart1", {
+      //   type: "pie",
+      //   data: {
+      //     labels: countries,
+      //     datasets: [{
+      //       backgroundColor: barColors, // อาจต้องกำหนดสีของ Pie Chart ตามจำนวนข้อมูลที่ได้
+      //       data: wineProduction
+      //     }]
+      //   },
+      //   options: {
+      //     title: {
+      //       display: true,
+      //       text: "World Wide Wine Production 2018"
+      //     }
+      //   }
+      // });
+    // })
+    // .catch(error => {
+    //   console.error('มีข้อผิดพลาดในการดึงข้อมูล: ', error);
+    // });
+</script>
+
+<script>
+ function getNewDogImage() {
+      fetch('https://dog.ceo/api/breeds/image/random')
+        .then(response => response.json())
+        .then(data => {
+          const imageUrl = data.message;
+          document.getElementById('dogImage').src = imageUrl;
+        })
+        .catch(error => {
+          console.error('มีข้อผิดพลาดในการดึงข้อมูล: ', error);
+        });
+    }
+
+    // เรียกใช้ฟังก์ชันเมื่อโหลดหน้าเว็บ
+    getNewDogImage();
+
+  function fetchZipInfo() {
+    const zipcode = document.getElementById('zipcode').value;
+
+    // เรียกใช้ API เพื่อดึงข้อมูล
+    fetch(`https://api.zippopotam.us/TH/${zipcode}`)
+      .then(response => response.json())
+      .then(data => {
+        // ดึงข้อมูลที่ต้องการแสดงผล
+        const { places } = data;
+        const resultDiv = document.getElementById('result');
+
+        // กำหนดข้อมูลที่จะแสดง
+        let html = '<ul>';
+        places.forEach(place => {
+          html += `<li>ชื่อสถานที่: ${place['place name']}</li>`;
+          html += `<li>: ${place['state']}</li>`;
+          html += `<li>ประเทศ: ${place['country']}</li>`;
+          html += `<li>พิกัดละติจูด: ${place['latitude']}</li>`;
+          html += `<li>พิกัดลองจิจูด: ${place['longitude']}</li>`;
+        });
+        html += '</ul>';
+
+        // แสดงผลบนหน้าเว็บ
+        resultDiv.innerHTML = html;
+      })
+      .catch(error => {
+        console.error('มีข้อผิดพลาดในการดึงข้อมูล:', error);
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = 'ไม่พบข้อมูลสำหรับรหัสไปรษณีย์นี้';
+      });
+  }
+   let map;
+   function initMap() {
+  // กำหนดตำแหน่งศูนย์กลางของแผนที่
+  const center = { lat: -34.397, lng: 150.644 };
+
+  // สร้างแผนที่ใน div ที่มี id="map"
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: center,
+    zoom: 8, // ขนาดการซูมของแผนที่
+  });
+}
+   
+</script>
 <!-- End page content -->
 </div>
+</body>
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-16">
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
