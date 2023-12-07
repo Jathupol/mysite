@@ -45,6 +45,8 @@
   <button onclick="getNewDogImage()" class="button-59">Get New Image</button>
   <hr>
   
+  <button type="button" onclick="getCryptoPriceWithHistory('bitcoin')" class="button-59">ดึงราคา Bitcoin</button>
+  <div id="result3"></div>
 <!-- <p id="demo3">ผลลัพธ์ : </p>
 <button type="button" onclick="calculator.read()">คลิ๊ก</button>
 </div>
@@ -64,12 +66,12 @@
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-gray w3-wide w3-padding w3-card">
-    <a href="index.html" class="w3-bar-item" style="text-decoration: none;"><b>JP</b>Assignment</a>
+    <a href="index.html" class="w3-bar-item" style="text-decoration: none;"><b style="color: black; font-size: 18px;">JP</b>Assignment</a>
     <!-- Float links to the right. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
-      <a href="index.html" class="w3-bar-item w3-button">index</a>
-      <a href="java.html" class="w3-bar-item w3-button">java</a>
-      <a href="api.html" class="w3-bar-item w3-button">api</a>
+      <a href="index.html" class="w3-bar-item w3-button" style="font-size: 18px;">index</a>
+      <a href="java.html" class="w3-bar-item w3-button" style="font-size: 18px;">java</a>
+      <a href="api.html" class="w3-bar-item w3-button" style="font-size: 18px;">api</a>
     </div>
   </div>
 </div>
@@ -168,6 +170,46 @@
   });
 }
    
+var bitcoinPriceHistory = [];
+  
+  function getCryptoPriceWithHistory(cryptoSymbol) {
+    fetch(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${cryptoSymbol}&vs_currencies=usd`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        displayCryptoPriceResult(data, cryptoSymbol);
+        storeCryptoPriceInHistory(data, cryptoSymbol);
+      })
+      .catch((error) => {
+        console.error(`Error fetching ${cryptoSymbol} price:`, error);
+      });
+  }
+
+  function storeCryptoPriceInHistory(data, cryptoSymbol) {
+    if (data[cryptoSymbol]) {
+      var price = data[cryptoSymbol].usd;
+      bitcoinPriceHistory.push({ symbol: cryptoSymbol, price: price });
+    }
+  }
+
+  function displayCryptoPriceResult(data, cryptoSymbol) {
+    var resultContainer = document.getElementById("result3");
+
+    resultContainer.innerHTML = "";
+
+    if (data[cryptoSymbol]) {
+      var price = data[cryptoSymbol].usd;
+      var resultText = `ราคา ${cryptoSymbol.toUpperCase()}: ${price} USD`;
+      var resultParagraph = document.createElement("p");
+      resultParagraph.textContent = resultText;
+
+      resultContainer.appendChild(resultParagraph);
+    } else {
+      resultContainer.textContent =
+        `ไม่สามารถดึงราคา ${cryptoSymbol.toUpperCase()} ได้ในขณะนี้`;
+    }
+  }
 </script>
 <!-- End page content -->
 </div>
